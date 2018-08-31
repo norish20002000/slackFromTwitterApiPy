@@ -29,7 +29,7 @@ if req.status_code == 200:
         sortedVolumeList = sorted(trendList['trends'], key=lambda x: (x['tweet_volume'] is not None, x['tweet_volume']), reverse=True)
 
         for j, trend in enumerate(sortedVolumeList):
-            print(trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']))
+            print("-" + trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']))
             print(trend['url'])
             # print()
             trendWord += trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']) + "\n"
