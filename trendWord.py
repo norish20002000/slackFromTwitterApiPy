@@ -3,13 +3,14 @@
 
 from requests_oauthlib import OAuth1Session
 import json
-# import slackweb
+import slackweb
 import AppConf
 
 url = "https://api.twitter.com/1.1/trends/place.json"
 # url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
 
-trendWord = "現在のtwitterトレンドワードは、" + "\n"
+headerStr = "現在のtwitterトレンドワードは、" + "\n"
+trendWord = ""
 
 # 東京
 params = {"id":"1118370"}
@@ -32,15 +33,19 @@ if req.status_code == 200:
             print("-" + trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']))
             print(trend['url'])
             # print()
-            trendWord += trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']) + "\n"
-
-            if(j == 10): 
+            trendWord += "-" + trend['name'] + "  tweet_valume:" + str(trend['tweet_volume']) + "\n"
+            trendWord += trend['url'] + "\n"
+            if(j == 20): 
                 break
 else:
     # error
     print("Error: %d" % req.status_code)
 
-# slack投稿 
-# slack = slackweb.Slack(url=AppConf.webhook)
-# slack.notify(text=trendWord)
+if trendWord != "":
+    postStr = headerStr + trendWord
+    # slack投稿 
+    slack = slackweb.Slack(url=AppConf.webhook)
+    slack.notify(text=postStr)
+
+
 
